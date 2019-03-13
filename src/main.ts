@@ -14,18 +14,18 @@ async function bootstrap() {
     .setVersion('1.0.0')
     .setHost(hostDomain.split('//')[1])
     .setSchemes(AppModule.isDev ? 'http' : 'https')
-    .setBasePath('api')
+    .setBasePath('noti')
     .addBearerAuth('Authorization', 'header')
     .build();
   
   const swaggerDoc = SwaggerModule.createDocument(app, swaggerOptions);
 
-  app.use('/api/docs/swagger.json', (req, res) => {
+  app.use('/noti/docs/swagger.json', (req, res) => {
     res.send(swaggerDoc);
   });
 
-  SwaggerModule.setup('/api/docs', app, null, {
-    swaggerUrl: `${hostDomain}/api/docs/swagger.json`,
+  SwaggerModule.setup('/noti/docs', app, null, {
+    swaggerUrl: `${hostDomain}/noti/docs/swagger.json`,
     explorer: true,
     swaggerOptions: {
       docExpansion: 'list',
@@ -34,7 +34,7 @@ async function bootstrap() {
     }
   });
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('noti');
 
   await app.listen(AppModule.port);
 }

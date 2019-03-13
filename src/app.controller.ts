@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Req, HttpException, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
 import { QuotesService } from './services/quotes/quotes.service';
 import { ApiOkResponse } from '@nestjs/swagger';
@@ -14,6 +14,11 @@ export class AppController {
 
   @Get('test')
   async getMessages(@Req() request) {
-    return this.quotesService.getQuotes(request);
+    try {
+      return this.quotesService.authHttp(request);
+    } catch (e) {
+      throw new HttpException('unauthorized', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
   }
 }

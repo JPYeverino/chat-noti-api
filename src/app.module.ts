@@ -6,20 +6,27 @@ import { ConfigurationService } from './shared/configuration/configuration.servi
 import { Configuration } from './shared/configuration/configuration.enum';
 import { QuotesService } from './services/quotes/quotes.service';
 import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
-import { AppGateway } from './app.gateway';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UserModule } from './user/user.module';
+import { ConversationModule } from './conversation/conversation.module';
+import { MessageModule } from './message/message.module';
+import { MessageController } from './message/message.controller';
+import { NotiUserController } from './user/noti-user.controller';
+import { ConversationController } from './conversation/conversation.controller';
+
 
 
 @Module({
-  imports: [SharedModule, HttpModule],
+  imports: [SharedModule, HttpModule, MongooseModule.forRoot(ConfigurationService.connectionString), UserModule, ConversationModule, MessageModule,],
   controllers: [AppController],
-  providers: [AppService, QuotesService, AppGateway],
+  providers: [AppService, QuotesService,],
 })
 export class AppModule {
 
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CookieParserMiddleware)
-      .forRoutes(AppController);
+      .forRoutes(AppController, MessageController, NotiUserController, ConversationController);
   }
 
   static host: string;
