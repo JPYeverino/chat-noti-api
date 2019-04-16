@@ -2,11 +2,11 @@ import { Controller, Get, Req, HttpException, HttpStatus, Res, Body, Post, Query
 import { ApiUseTags, ApiOperation, ApiResponse, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { Message } from './models/message.model';
 import { MessageService } from './message.service';
-import { QuotesService } from 'src/services/quotes/quotes.service';
+import { QuotesService } from '../services/quotes/quotes.service';
 import { map } from 'rxjs/operators';
 import { MessageVm } from './models/view-models/message-vm.model';
-import { GetOperationId } from 'src/shared/utilities/get-operation-id';
-import { apiException } from 'src/shared/api-exception.model';
+import { GetOperationId } from '../shared/utilities/get-operation-id';
+import { apiException } from '../shared/api-exception.model';
 import { GetConversationsVm } from './models/view-models/get-conversations-vm.model';
 
 @Controller('message')

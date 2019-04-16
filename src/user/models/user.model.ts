@@ -1,5 +1,5 @@
-import { Conversation } from "src/conversation/models/conversation.model";
-import { BaseModel, schemaOptions } from "src/shared/base.model";
+import { Conversation } from "conversation/models/conversation.model";
+import { BaseModel, schemaOptions } from "../../shared/base.model";
 import { prop, ModelType, arrayProp, Ref } from "typegoose";
 import { ContactUser } from "./view-models/contact-user.model";
 

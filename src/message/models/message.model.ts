@@ -1,9 +1,9 @@
-import { BaseModel, schemaOptions } from "src/shared/base.model";
+import { BaseModel, schemaOptions } from "../../shared/base.model";
 import { prop, Ref, ModelType, arrayProp } from "typegoose";
-import { Conversation } from "src/conversation/models/conversation.model";
-import { User } from "src/user/models/user.model";
-import { UserVm } from "src/user/models/view-models/user-vm.model";
-import { ConversationVm } from "src/conversation/models/view-models/conversation-vm.model";
+import { Conversation } from "conversation/models/conversation.model";
+import { User } from "../../user/models/user.model";
+import { UserVm } from "../../user/models/view-models/user-vm.model";
+import { ConversationVm } from "conversation/models/view-models/conversation-vm.model";
 
 export class Message extends BaseModel<Message> {
     @prop({required: true}) content: string;

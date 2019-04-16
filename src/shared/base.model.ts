@@ -8,8 +8,6 @@ export class BaseModel<T> extends Typegoose {
 
     @prop({default: Date.now()})
     updatedAt?: Date;
-
-    id?: string;
 }
 
 @pre('findOneAndUpdate', function(next) {

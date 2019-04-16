@@ -6,10 +6,10 @@ import { get } from 'config';
 export class ConfigurationService {
 
     static user_api_ur: string = get(Configuration.USER_API); 
-    static connectionString: string = process.env[Configuration.MONGO_URI] || get(Configuration.MONGO_URI);
     private environmentHosting: string = process.env.NODE_ENV || 'development';
 
     get(name: string): string {
+        console.log(name, get(name));
         return process.env[name] || get(name);
     }
 

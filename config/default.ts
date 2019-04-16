@@ -1,6 +1,6 @@
 export default {
-    HOST: 'http://localhost',
+    HOST: 'http://noti-api',
     PORT: 3001,
-    MONGO_URI: 'mongodb://localhost:27017/noti-api',
-    USER_API: 'http://localhost:3000/users'
+    MONGO_URI: 'mongodb://mongo:27017/noti-api',
+    USER_API: 'http://auth-api:3000/users'
 }

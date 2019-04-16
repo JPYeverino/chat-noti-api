@@ -15,9 +15,18 @@ import { NotiUserController } from './user/noti-user.controller';
 import { ConversationController } from './conversation/conversation.controller';
 
 
-
 @Module({
-  imports: [SharedModule, HttpModule, MongooseModule.forRoot(ConfigurationService.connectionString), UserModule, ConversationModule, MessageModule,],
+  imports: [SharedModule, HttpModule, MongooseModule.forRootAsync({
+    imports: [SharedModule],
+    useFactory: async(_configService: ConfigurationService) => ({
+      uri: _configService.get(Configuration.MONGO_URI),
+      retryDelay: 500,
+      retryAttempts: 3,
+      useNewUrlParser: true,
+      useCreateIndex: true
+    }),
+    inject: [ConfigurationService]
+  }), UserModule, ConversationModule, MessageModule,],
   controllers: [AppController],
   providers: [AppService, QuotesService,],
 })

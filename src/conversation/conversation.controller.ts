@@ -3,10 +3,10 @@ import { ApiUseTags, ApiCreatedResponse, ApiBadRequestResponse, ApiResponse, Api
 import { Conversation } from './models/conversation.model';
 import { ConversationService } from './conversation.service';
 import { ConversationVm } from './models/view-models/conversation-vm.model';
-import { apiException } from 'src/shared/api-exception.model';
-import { UserVm } from 'src/user/models/view-models/user-vm.model';
-import { GetOperationId } from 'src/shared/utilities/get-operation-id';
-import { AddContactVm } from 'src/user/models/view-models/add-contact-vm.model';
+import { apiException } from '../shared/api-exception.model';
+import { UserVm } from '../user/models/view-models/user-vm.model';
+import { GetOperationId } from '../shared/utilities/get-operation-id';
+import { AddContactVm } from '../user/models/view-models/add-contact-vm.model';
 
 @Controller('conversation')
 @ApiUseTags(Conversation.modelName)

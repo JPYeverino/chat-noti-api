@@ -1,9 +1,6 @@
-import { User } from "src/user/models/user.model"; 
-import { BaseModel, schemaOptions } from "src/shared/base.model";
+import { BaseModel, schemaOptions } from "../../shared/base.model";
 import { prop, arrayProp, Ref, ModelType } from "typegoose";
-import { Message } from "src/message/models/message.model";
-import { Mongoose, Types } from "mongoose";
-import { UserVm } from "src/user/models/view-models/user-vm.model";
+import { UserVm } from "../../user/models/view-models/user-vm.model";
 
 export class Conversation extends BaseModel<Conversation> {
     @arrayProp({items: UserVm}) participants: UserVm[] = [];

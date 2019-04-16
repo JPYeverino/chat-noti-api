@@ -1,16 +1,12 @@
-import { Controller, Post, Body, Get, Req } from '@nestjs/common';
-import { ApiUseTags, ApiCreatedResponse, ApiBadRequestResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { Controller, Post, Body, Get, Req, Query, HttpStatus } from '@nestjs/common';
+import { ApiUseTags, ApiCreatedResponse, ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiImplicitQuery } from '@nestjs/swagger';
 import { User } from './models/user.model';
 import { UserService } from './user.service';
 import { UserVm } from './models/view-models/user-vm.model';
-import { apiException } from 'src/shared/api-exception.model';
+import { apiException } from '../shared/api-exception.model';
 import { RegisterVm } from './models/view-models/register-vm';
 import { AddContactVm } from './models/view-models/add-contact-vm.model';
-import { IoAdapter } from '@nestjs/websockets';
-import { AppGateway } from 'src/app.gateway';
-import { Types } from 'mongoose';
-import { GetOperationId } from 'src/shared/utilities/get-operation-id';
-import { ConversationVm } from 'src/conversation/models/view-models/conversation-vm.model';
+import { GetOperationId } from '../shared/utilities/get-operation-id';
 import { userContact } from './models/view-models/user-contacts.model';
 
 @Controller('noti-user')
@@ -32,13 +28,20 @@ export class NotiUserController {
     @ApiCreatedResponse({ type: userContact })
     @ApiBadRequestResponse({ type: apiException })
     @ApiOperation(GetOperationId(User.modelName, 'save user'))
-    async register(@Body() registerVm: RegisterVm, @Req() request): Promise<any> {
-        const newUser = await this._userService.saveUser(registerVm);
-        return newUser;
+    async register(@Body() registerVm: RegisterVm): Promise<any> {
+        console.log('Noti register test ',registerVm)
+        try {
+            const newUser = await this._userService.saveUser(registerVm);
+            return newUser;
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+       
     }
 
     @Post('add-contact')
-    @ApiCreatedResponse({ type: AddContactVm })
+    @ApiCreatedResponse({ type: UserVm })
     @ApiBadRequestResponse({ type: apiException })
     @ApiOperation(GetOperationId(User.modelName, 'add contact'))
     async addContact(@Body() addContact: AddContactVm, @Req() req) {
@@ -52,17 +55,27 @@ export class NotiUserController {
     @ApiBadRequestResponse({ type: apiException })
     @ApiOperation(GetOperationId(User.modelName, 'get user contacts'))
     async getUserContacts(@Req() req) {
+        console.log('contacts');
         return await this._userService.getContacts(req);
     }
 
     @Post('friend')
-    @ApiOkResponse({ type: AddContactVm})
+    @ApiCreatedResponse({ type: UserVm})
     @ApiBadRequestResponse({ type: apiException })
     @ApiOperation(GetOperationId(User.modelName, 'set contact status'))
     async makeFriends(@Req() req, @Body() contact: AddContactVm) {
-
         return this._userService.makeFriends(contact, req);
-
     }
+
+    @Get('users-list')
+    @ApiOkResponse({ type: UserVm, isArray: true })
+    @ApiBadRequestResponse({ type: apiException })
+    @ApiOperation(GetOperationId(User.modelName, 'users list'))
+    @ApiImplicitQuery({ name: 'search', type: String, required: true, })
+    async getFilteredUsers(@Req() req, @Query() searchInput: string) { 
+        return await this._userService.getAll(req, searchInput);
+    }
+        
+
 
 }
